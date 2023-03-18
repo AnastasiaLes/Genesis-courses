@@ -9,6 +9,7 @@ export const CourseContainer = styled.div`
     margin-bottom: 50px;
     padding: 2%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, .25);
+    cursor: pointer;
 `;
 
 export const InsideContainer = styled.div`

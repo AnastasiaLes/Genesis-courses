@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { CoursesTypes } from './types';
+import { CoursesTypes, SingleCourseType } from './types';
 
 export const coursesListAPI = createApi({
     reducerPath: 'coursesApi',
@@ -20,7 +20,12 @@ export const coursesListAPI = createApi({
                 method: 'GET',
             }),
         }),
+        getOneCourse: builder.query <SingleCourseType, string | undefined>({
+            query: (id) => ({
+                url: `/core/preview-courses/${id}`
+            })
+        })
     }),
 });
 
-export const { useGetCoursesQuery } = coursesListAPI;
+export const { useGetCoursesQuery, useGetOneCourseQuery } = coursesListAPI;

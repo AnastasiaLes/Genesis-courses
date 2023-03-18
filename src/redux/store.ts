@@ -1,6 +1,4 @@
 import { configureStore} from '@reduxjs/toolkit';
-
-import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import {coursesListAPI} from './coursesSlice'
 
 
@@ -14,4 +12,4 @@ export const store = configureStore({
   ],
 });
 
-setupListeners(store.dispatch);
+export type RootState = ReturnType<typeof store.getState>
