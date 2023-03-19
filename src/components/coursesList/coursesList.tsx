@@ -1,33 +1,57 @@
 import { Box } from '@mui/material';
 import Pagination from '@mui/material/Pagination';
-import { useState } from 'react';
-import { useGetCoursesQuery } from '../../redux/coursesSlice';
-import { CourseContainer, InsideContainer, RateContainer } from './courseList.styled';
+import CircularProgress from '@mui/material/CircularProgress';
+import { useEffect, useState } from 'react';
 import { generatePath, useNavigate } from 'react-router-dom';
+import { CourseContainer, InsideContainer, RateContainer } from './courseList.styled';
+import { useDispatch } from 'react-redux';
+import { setToken } from '../../redux/authSlice';
+import { useGetCoursesQuery, useGetTokenQuery } from '../../redux/coursesSlice';
 
 const CoursesList = () => {
-    const { data, isLoading } = useGetCoursesQuery();
-    const totalPages = 10;
-    const [page, setPage] = useState(1)
+    const dispatch = useDispatch();
+    const { data: token, isError: isTokenError } = useGetTokenQuery();
+    token && dispatch(setToken(token));
+    const { data, isLoading, isError: isCoursesError } = useGetCoursesQuery(undefined, {skip: !token});
+    const coursesPerPage = 10;
+    const totalCourses = data ? data?.courses.length : 0;
+    const [pagination, setPagination] = useState({
+        count: 0,
+        from: 0,
+        to: coursesPerPage
+    });
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const total = data ? Math.ceil(totalCourses / coursesPerPage) : 0;
+        setPagination({ ...pagination, count: total });
+    }, [pagination.from, pagination.to, data]);
 
-    data && console.log(data.courses);
+    const handlePaginationClick = (event: any, page: number) => {
+        const from = (page - 1) * coursesPerPage;
+        const to = (page - 1) * coursesPerPage + coursesPerPage;
+        setPagination({...pagination, from: from, to: to})
+    }
+
+    const currentPageCourses = data?.courses.slice(pagination.from, pagination.to);
+    
     return (
-        isLoading
-            ? <p>Loading...</p>
-            :
+    isLoading
+        ? <CircularProgress
+            color="primary"
+            size='100px'
+            sx={{ marginTop: '50px' }}
+        />
+        :
         <>
-            
-                <h1>Our Courses</h1>
-           
-                {data && data.courses.map(course =>
+                {isTokenError && isCoursesError ? <h3>Oops, something went wrong...</h3> : <h1>Our Courses</h1>}
+                {data && currentPageCourses?.map(course =>
                     <CourseContainer key={course.id} onClick={() => navigate(generatePath("/:id", { id: course.id }))}>
                         <h2>{course.title}</h2> 
                         <InsideContainer>
                             <img src={`${course.previewImageLink}/cover.webp`} alt={course.title} width={300} />
                             
-                            <h3>Skills:</h3>
+                            {course.meta.skills && <h3>Skills:</h3>}
                             <ul>
                                 {course.meta.skills && course.meta.skills.map(
                                     skill =>
@@ -43,9 +67,14 @@ const CoursesList = () => {
                     
                 )}
 
-                {/* <Box sx={{ padding: '10px', display: 'flex', justifyContent: 'center' }}>
-                    <Pagination count={totalPages} page={pageNumber + 1} onChange={handlePaginationClick} />
-                </Box> */}
+    {/* ==Pagination== */}
+                {pagination.count > 0 && <Box sx={{ padding: '10px', display: 'flex', justifyContent: 'center' }}>
+                    <Pagination
+                        disabled={pagination.count <= 1 ? true : false} 
+                        count={pagination.count}
+                        onChange={handlePaginationClick}
+                    />
+                </Box>}
 
         </>
         

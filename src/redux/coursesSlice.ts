@@ -1,12 +1,16 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { RootState } from './store';
 import { CoursesTypes, SingleCourseType } from './types';
 
 export const coursesListAPI = createApi({
     reducerPath: 'coursesApi',
     baseQuery: fetchBaseQuery({
         baseUrl: 'https://api.wisey.app/api/v1',
-        prepareHeaders: (headers) => {
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwOTA2Y2E0My1iYWIwLTRhNmUtOGQ3ZS1lY2NjNzFmZGE3OWEiLCJwbGF0Zm9ybSI6InN1YnNjcmlwdGlvbnMiLCJpYXQiOjE2NzkwNjEzMTAsImV4cCI6MTY3OTk2MTMxMH0.p8DESs-AleRWKRQRrr5TdZ21hGSmcNJDSJNP0J814SY";
+        prepareHeaders: (headers, { getState }) => {
+            const token = (getState() as RootState).authSlice.token;
+;
+            console.log(token);
+            
         if (token) {
             headers.set('authorization', `Bearer ${token}`);
         }
@@ -14,6 +18,11 @@ export const coursesListAPI = createApi({
     },
     }),
     endpoints: builder => ({
+        getToken: builder.query<any, void>({
+            query: () => ({
+                url: '/auth/anonymous?platform=subscriptions',
+            })
+        }),
         getCourses: builder.query<CoursesTypes, void>({
             query: () => ({
                 url: `/core/preview-courses`,
@@ -28,4 +37,4 @@ export const coursesListAPI = createApi({
     }),
 });
 
-export const { useGetCoursesQuery, useGetOneCourseQuery } = coursesListAPI;
+export const { useGetTokenQuery, useGetCoursesQuery, useGetOneCourseQuery } = coursesListAPI;

@@ -23,6 +23,18 @@ export interface CoursesTypes {
     }[]
 };
 
+export interface LessonType {
+        id: string;
+        title: string;
+        duration: number;
+        order: number;
+        type: string;
+        status: string;
+        link: string;
+        previewImageLink: string;
+        meta: null;
+}
+
 export interface SingleCourseType {
     id: string;
     title: string;
@@ -42,16 +54,6 @@ export interface SingleCourseType {
             previewImageLink: string;
         }
     }
-    lessons: {
-        id: string;
-        title: string;
-        duration: number;
-        order: number;
-        type: string;
-        status: string;
-        link: string;
-        previewImageLink: string;
-        meta: null;
-    }[]
+    lessons: LessonType[]
     containsLockedLessons: boolean;
 }

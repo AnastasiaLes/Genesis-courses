@@ -17,6 +17,14 @@ export const InsideContainer = styled.div`
     justify-items: stretch;
     justify-content: center;
     gap: 40px;
+
+    @media screen and (max-width: 1024px) {
+        flex-direction: column;
+        gap: 20px;
+        h3, ul {
+            margin: 0;
+        }
+    }
 `;
 
 export const RateContainer = styled.div`
@@ -24,4 +32,4 @@ export const RateContainer = styled.div`
     flex-direction: row;
     align-content: start;
     gap: 40px;
-`
+`;
