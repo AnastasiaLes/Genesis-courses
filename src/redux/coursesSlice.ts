@@ -7,10 +7,7 @@ export const coursesListAPI = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: 'https://api.wisey.app/api/v1',
         prepareHeaders: (headers, { getState }) => {
-            const token = (getState() as RootState).authSlice.token;
-;
-            console.log(token);
-            
+            const token = (getState() as RootState).authSlice.token;   
         if (token) {
             headers.set('authorization', `Bearer ${token}`);
         }
