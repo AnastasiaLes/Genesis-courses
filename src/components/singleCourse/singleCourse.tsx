@@ -14,7 +14,6 @@ const SingleCourse = () => {
     const courseId = params['id'];
     const { data, isLoading, isError } = useGetOneCourseQuery(courseId)
 
-
     const [video, setVideo] = useState<string>('');
     const [image, setImage] = useState<string>('');
     const [alert, setAlert] = useState<boolean>(false);
@@ -22,7 +21,7 @@ const SingleCourse = () => {
     useEffect(() => {
         data && setImage(data?.lessons[0].previewImageLink);
         const firstVideo = data?.lessons.find((lesson: { status: string; }) => lesson.status === 'unlocked');
-        const currentLesson = localStorage.getItem('currentLesson');
+        const currentLesson = localStorage.getItem(`${courseId}`);
         if (currentLesson) {
             setVideo(currentLesson);   
         } else if (!currentLesson && firstVideo)
@@ -34,12 +33,11 @@ const SingleCourse = () => {
         lesson.status === 'unlocked'
             ? setVideo(lesson.link)
             : setAlert(true);
-        localStorage.setItem('currentLesson', lesson.link);
+        localStorage.setItem(`${courseId}`, lesson.link);
     };
 
     const handleListBtnClick = () => {
         localStorage.removeItem('playedTime');
-        localStorage.removeItem('currentLesson');
         navigate('/');
     }
     
@@ -82,7 +80,8 @@ const SingleCourse = () => {
                 onClose={() => setAlert(false)}
             >
                 This video is locked!
-            </Alert>}
+                </Alert>}
+                
             {data?.lessons.map((lesson: LessonType) =>
                 <LessonContainer
                     key={lesson.id}
