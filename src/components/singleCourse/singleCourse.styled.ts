@@ -13,7 +13,11 @@ export const ListBtn = styled.button`
     } 
 `;
 
-export const LessonContainer = styled.div`
+export const LessonContainer = styled.div<{active: boolean} >`
+background-color: ${props => (props.active
+    ? '#FFBC0F40'
+    : 'transparent'
+)};
     display: flex;
     align-items: baseline;
     gap: 30px;

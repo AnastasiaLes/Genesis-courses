@@ -3,10 +3,11 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
-import { LessonContainer, CourseImg, ListBtn } from './singleCourse.styled';
+import { CourseImg, ListBtn } from './singleCourse.styled';
 import { useGetOneCourseQuery } from "../../redux/coursesSlice"
-import icon from '../../images/symbol-defs.svg'
+
 import { LessonType } from '../../redux/types';
+import { Lesson } from './lesson';
 
 const SingleCourse = () => {
     const params = useParams();
@@ -82,22 +83,13 @@ const SingleCourse = () => {
                 This video is locked!
                 </Alert>}
                 
-            {data?.lessons.map((lesson: LessonType) =>
-                <LessonContainer
-                    key={lesson.id}
-                    onClick={() => handleLesson(lesson)}
-                    style={{backgroundColor: lesson.link && lesson.link===video ? '#FFBC0F40' : 'transparent'}}
-                >
-
-                    <svg width="18" height="18" style={{ fill: '#787878' }}>
-                        <use href={icon + '#icon-check'} />
-                    </svg>
-                    <p>{lesson.title}</p>
-                    {lesson.status !== 'unlocked' &&
-                        <svg width="18" height="18" style={{ fill: '#787878' }}>
-                        <use href={icon + '#icon-lock'} />
-                    </svg>}
-                </LessonContainer>)}
+            {data?.lessons.map((singleLesson: LessonType) =>
+                <Lesson
+                    handleLesson={handleLesson}
+                    lesson={singleLesson}
+                    video={video}
+                />
+            )}
             
         </div>
     )
