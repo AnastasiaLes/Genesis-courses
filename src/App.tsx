@@ -3,10 +3,12 @@ import CoursesList from './components/coursesList/coursesList';
 import { Container } from './app.styled';
 import SingleCourse from './components/singleCourse/singleCourse';
 import './App.css';
+import { Header } from "./components/header/header";
 
 function App() {
   return (
-    <Container>
+      <Container>
+        <Header />
       <Routes>
         <Route path="/" element={<Outlet />}>
           <Route path="/" element={<CoursesList />} />

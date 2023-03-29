@@ -12,10 +12,7 @@ interface singleLesson {
 export const Lesson: FC<singleLesson> = props => {
     
     return <LessonContainer
-        active={
-            props.lesson.link && props.lesson.link === props.video
-            ? true
-            : false}
+        active={props.lesson.link === props.video}
         key={props.lesson.id}
         onClick={() => props.handleLesson(props.lesson)}
     >

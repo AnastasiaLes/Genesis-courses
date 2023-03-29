@@ -1,9 +1,9 @@
 import ReactPlayer from 'react-player';
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
-import { CourseImg, ListBtn } from './singleCourse.styled';
+import { CourseImg } from './singleCourse.styled';
 import { useGetOneCourseQuery } from "../../redux/coursesSlice"
 
 import { LessonType } from '../../redux/types';
@@ -11,7 +11,7 @@ import { Lesson } from './lesson';
 
 const SingleCourse = () => {
     const params = useParams();
-    const navigate = useNavigate()
+
     const courseId = params['id'];
     const { data, isLoading, isError } = useGetOneCourseQuery(courseId)
 
@@ -37,11 +37,6 @@ const SingleCourse = () => {
         localStorage.setItem(`${courseId}`, lesson.link);
     };
 
-    const handleListBtnClick = () => {
-        localStorage.removeItem('playedTime');
-        navigate('/');
-    }
-    
     return (
     isLoading
         ? <CircularProgress
@@ -50,7 +45,6 @@ const SingleCourse = () => {
             sx={{ marginTop: '50px' }} />
         :
         <div>
-            <ListBtn onClick={handleListBtnClick}>Courses List</ListBtn>
             <h2>{data?.title}</h2>
             {video
                 ?
@@ -70,7 +64,10 @@ const SingleCourse = () => {
                 : <CourseImg src={`${image}/lesson-1.webp`} alt={data?.title} />
             }
             
-                {isError ? <h3>Oops, something went wrong...</h3> : <h3>Description of the course: </h3>}
+                {isError
+                    ? <h3>Oops, something went wrong...</h3>
+                    : <h3>Description of the course: </h3>
+                }
                 <p>{data?.description}</p>
             <h3>Lessons: </h3>
         {/* ==Alert == */}

@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,12 +21,12 @@ code {
 
 /* ==ScrollBar== */
 ::-webkit-scrollbar {
-      width: 10px;
+    width: 10px;
 }
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
 ::-webkit-scrollbar-thumb {
-  background: #FFBC0F;
+  background: #088F8F;
   border-radius: 50px;
 }
