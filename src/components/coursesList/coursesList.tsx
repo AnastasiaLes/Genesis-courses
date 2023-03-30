@@ -1,9 +1,9 @@
-import { Box } from '@mui/material';
+import { Box, Grid} from '@mui/material';
 import Pagination from '@mui/material/Pagination';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useEffect, useState } from 'react';
 import { generatePath, useNavigate } from 'react-router-dom';
-import { CourseContainer, InsideContainer, RateContainer } from './courseList.styled';
+import { CourseContainer, InsideContainer } from './courseList.styled';
 import { useDispatch } from 'react-redux';
 import { setToken } from '../../redux/authSlice';
 import { useGetCoursesQuery, useGetTokenQuery } from '../../redux/coursesSlice';
@@ -44,28 +44,30 @@ const CoursesList = () => {
         />
         :
         <>
-                {isTokenError && isCoursesError ? <h3>Oops, something went wrong...</h3> : <h1>Our Courses</h1>}
+                {isTokenError && isCoursesError
+                    ? <h3>Oops, something went wrong...</h3>
+                    : <h2>Our Courses</h2>}
+
+                <Box sx={{ width: '100%' }}>
+                        <Grid container alignItems="stretch" rowSpacing={2} columnSpacing={2}>
                 {data && currentPageCourses?.map(course =>
-                    <CourseContainer key={course.id} onClick={() => navigate(generatePath("/:id", { id: course.id }))}>
-                        <h2>{course.title}</h2> 
-                        <InsideContainer>
-                            <img src={`${course.previewImageLink}/cover.webp`} alt={course.title} width={300} />
-                            
-                            {course.meta.skills && <h3>Skills:</h3>}
-                            <ul>
-                                {course.meta.skills && course.meta.skills.map(
-                                    skill =>
-                                        <li key={skill}>{skill.replace(skill[0], skill[0].toUpperCase())}</li>)
-                                } 
-                            </ul>
-                        </InsideContainer>
-                        <RateContainer>
-                            <p><b>Lessons Count: </b>{course.lessonsCount}</p>
-                            <p><b>Rate: </b>{course.rating}</p>
-                        </RateContainer>
-                    </CourseContainer>
-                    
+                    <Grid item xs={12} md={6} key={course.id} onClick={() => navigate(generatePath("/:id", { id: course.id }))}>
+                        <CourseContainer>
+                            <h3>{course.title}</h3>
+                            <InsideContainer>
+                                <img src={`${course.previewImageLink}/cover.webp`} alt={course.title} width={300} />
+                            <div>
+                                <p><b>Lessons Count: </b>{course.lessonsCount}</p>
+                                <p><b>Rate: </b>{course.rating}</p>
+                            </div>
+                            </InsideContainer>
+                            <p>{course.meta.skills && <b>Skills: </b>} {course.meta.skills && course.meta.skills.join('; ')}</p>
+                           
+                        </CourseContainer>
+                    </Grid>    
                 )}
+                </Grid>
+                    </Box>
 
     {/* ==Pagination== */}
                 {pagination.count > 0 && <Box sx={{ padding: '10px', display: 'flex', justifyContent: 'center' }}>
