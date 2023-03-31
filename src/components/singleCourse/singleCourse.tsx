@@ -42,7 +42,7 @@ const SingleCourse = () => {
         ? <CircularProgress
             color="primary"
             size='100px'
-            sx={{ marginTop: '50px' }} />
+            sx={{ marginTop: '20%', color: '#088F8F' }} />
         :
         <div>
             <h2>{data?.title}</h2>

@@ -38,48 +38,45 @@ const CoursesList = () => {
     return (
     isLoading
         ? <CircularProgress
-            color="primary"
-            size='100px'
-            sx={{ marginTop: '50px' }}
+        size='100px'
+        sx={{ marginTop: '20%', color: '#088F8F' }}
         />
         :
         <>
-                {isTokenError && isCoursesError
-                    ? <h3>Oops, something went wrong...</h3>
-                    : <h2>Our Courses</h2>}
+            {isTokenError && isCoursesError
+                ? <h3>Oops, something went wrong...</h3>
+                : <h2>Our Courses</h2>}
 
-                <Box sx={{ width: '100%' }}>
-                        <Grid container alignItems="stretch" rowSpacing={2} columnSpacing={2}>
+            <Box sx={{ width: '100%' }}>
+                <Grid container alignItems="stretch" rowSpacing={2} columnSpacing={2}>
                 {data && currentPageCourses?.map(course =>
-                    <Grid item xs={12} md={6} key={course.id} onClick={() => navigate(generatePath("/:id", { id: course.id }))}>
-                        <CourseContainer>
-                            <h3>{course.title}</h3>
-                            <InsideContainer>
-                                <img src={`${course.previewImageLink}/cover.webp`} alt={course.title} width={300} />
-                            <div>
-                                <p><b>Lessons Count: </b>{course.lessonsCount}</p>
-                                <p><b>Rate: </b>{course.rating}</p>
-                            </div>
-                            </InsideContainer>
-                            <p>{course.meta.skills && <b>Skills: </b>} {course.meta.skills && course.meta.skills.join('; ')}</p>
-                           
-                        </CourseContainer>
-                    </Grid>    
+                <Grid item xs={12} md={6} key={course.id} onClick={() => navigate(generatePath("/:id", { id: course.id }))}>
+                    <CourseContainer>
+                        <h3>{course.title}</h3>
+                        <InsideContainer>
+                            <img src={`${course.previewImageLink}/cover.webp`} alt={course.title} width={300} />
+                        <div>
+                            <p><b>Lessons Count: </b>{course.lessonsCount}</p>
+                            <p><b>Rate: </b>{course.rating}</p>
+                        </div>
+                        </InsideContainer>
+                        <p>{course.meta.skills && <b>Skills: </b>} {course.meta.skills && course.meta.skills.join('; ')}</p>  
+                    </CourseContainer>
+                </Grid>    
                 )}
                 </Grid>
-                    </Box>
+            </Box>
 
     {/* ==Pagination== */}
-                {pagination.count > 0 && <Box sx={{ padding: '10px', display: 'flex', justifyContent: 'center' }}>
-                    <Pagination
-                        disabled={pagination.count <= 1 ? true : false} 
-                        count={pagination.count}
-                        onChange={handlePaginationClick}
-                    />
-                </Box>}
-
+            {pagination.count > 0
+                && <Box sx={{ padding: '10px', display: 'flex', justifyContent: 'center' }}>
+                <Pagination
+                    disabled={pagination.count <= 1 ? true : false} 
+                    count={pagination.count}
+                    onChange={handlePaginationClick}
+                />
+            </Box>}
         </>
-        
     )
 }
 export default CoursesList;
