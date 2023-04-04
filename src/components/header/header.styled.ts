@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styled from '@emotion/styled'
 
 export const HeaderContainer = styled.div`
 border-top: 3px solid #088F8F;
@@ -11,10 +11,10 @@ display: flex;
 align-items: baseline;
 justify-content: space-around;
 margin: 0;
-`;
+`
 
 export const TelIocon = styled.svg`
 margin-right: 10px;
 margin-bottom: -3px;
 fill: #088F8F;
-`;
+`

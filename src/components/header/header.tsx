@@ -1,9 +1,8 @@
-import { HeaderContainer, TelIocon} from "./header.styled"
+import { HeaderContainer, TelIocon } from './header.styled'
 import icon from '../../images/symbol-defs.svg'
 
-export const Header = () => {
-
-    return (
+export const Header = (): JSX.Element => {
+  return (
         <HeaderContainer>
             <a href="/">
                 Education Center
@@ -13,7 +12,7 @@ export const Header = () => {
                     <use href={icon + '#icon-tel'} />
                 </TelIocon>
                 Call Us
-            </a>            
-       </HeaderContainer> 
-    )
-}    
+            </a>
+    </HeaderContainer>
+  )
+}

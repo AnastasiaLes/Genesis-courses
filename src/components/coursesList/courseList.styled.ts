@@ -8,7 +8,7 @@ export const CourseContainer = styled.div`
     padding: 2%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, .25);
     cursor: pointer;
-`;
+`
 
 export const InsideContainer = styled.div`
     display: flex;
@@ -23,4 +23,4 @@ export const InsideContainer = styled.div`
             margin: 0;
         }
     }
-`;
+`
